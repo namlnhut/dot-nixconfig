@@ -3,7 +3,7 @@
 {
   xdg.configFile."orage/oragerc".text = ''
     [PARAMETERS]
-    Timezone=Europe/Warsaw
+    Timezone=Asia/Ho_Chi_Minh
     Archive limit=0
     Archive file=/home/gvolpe/.local/share/orage/orage_archive.ics
     Orage file=/home/gvolpe/.local/share/orage/orage.ics
