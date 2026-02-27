@@ -65,44 +65,34 @@ This repository contains configurations for multiple window managers and desktop
 
 ## :rocket: Quick Start
 
-### Switch Home Manager Configuration
+### Unified System & Home Manager Rebuild
 
-Use the convenient switch script:
-
-```bash
-cd nix-config
-
-# Switch to XFCE
-./switch.sh lnnam-xfce
-
-# Switch to XMonad
-./switch.sh lnnam-xmonad
-
-# Switch to Niri
-./switch.sh lnnam-niri
-
-# Switch to Hyprland
-./switch.sh lnnam-hyprland
-
-# Switch to GNOME
-./switch.sh lnnam-gnome
-```
-
-### Rebuild System Configuration
+**Home Manager is now integrated into NixOS!** A single command applies both system and user configurations:
 
 ```bash
 cd nix-config
 
-# Rebuild MSI GL63 system
+# Rebuild MSI GL63 system (includes home-manager)
 ./switch.sh msi
 
 # Or manually
 sudo nixos-rebuild switch --flake .#msi-gl63
 ```
 
-### Manual Home Manager Switch
+This will automatically:
+- Update your NixOS system configuration
+- Apply your home-manager configuration for the lnnam user
+- Make the `home-manager` command available
+
+### Standalone Home Manager (Optional)
+
+If you need to switch only your home-manager configuration without rebuilding the system:
 
 ```bash
+# Use the switch script
+./switch.sh lnnam-xmonad
+
+# Or manually
 home-manager switch --flake .#lnnam-xfce
 home-manager switch --flake .#lnnam-xmonad
 home-manager switch --flake .#lnnam-niri
@@ -219,6 +209,19 @@ $ nix flake show
 
 ## :wrench: Configuration Details
 
+### Integrated Home Manager
+
+This configuration uses **NixOS module integration** for Home Manager, which means:
+
+- ✅ **Single command rebuild**: `sudo nixos-rebuild switch` applies both system and home-manager configs
+- ✅ **Unified configuration**: Home Manager settings are part of your machine's NixOS configuration
+- ✅ **Automatic activation**: No need to run `home-manager switch` separately
+- ✅ **Better integration**: System and user configurations are always in sync
+
+The integration is configured in:
+- `outputs/os.nix:10` - Imports the home-manager NixOS module
+- `system/machine/msi-gl63/default.nix:11-26` - Configures home-manager for the lnnam user
+
 ### System Features
 
 - **Locale**: English (US) with Vietnamese regional formats
@@ -254,7 +257,7 @@ $ nix flake show
    ```
 4. Clone this repository:
    ```bash
-   git clone https://github.com/namlnhut/nix-config.git /mnt/etc/nixos/nix-config
+   git clone https://github.com/namlnhut/dot-nixconfig.git /mnt/etc/nixos/nix-config
    ```
 5. Copy your hardware-configuration.nix:
    ```bash
@@ -269,14 +272,12 @@ $ nix flake show
 
 1. Clone this repository
 2. Update hardware-configuration.nix for your machine
-3. Build and switch:
+3. Build and switch (applies both system and home-manager):
    ```bash
    sudo nixos-rebuild switch --flake .#msi-gl63
    ```
-4. Install Home Manager configuration:
-   ```bash
-   home-manager switch --flake .#lnnam-xmonad
-   ```
+
+That's it! Home Manager is now integrated and will be applied automatically.
 
 ## :computer: Environment Details
 
@@ -341,20 +342,22 @@ The switch.sh script makes it easy to switch between different environments:
 # List all available options
 ./switch.sh
 
-# Home Manager configurations
+# System rebuild (recommended - includes home-manager)
+./switch.sh msi              # Rebuild msi-gl63 system with integrated home-manager
+
+# Standalone Home Manager configurations (optional - for quick user config changes)
 ./switch.sh lnnam-xfce       # Switch to XFCE
 ./switch.sh lnnam-xmonad     # Switch to XMonad
 ./switch.sh lnnam-niri       # Switch to Niri
 ./switch.sh lnnam-hyprland   # Switch to Hyprland
 ./switch.sh lnnam-gnome      # Switch to GNOME
 
-# System rebuild
-./switch.sh msi              # Rebuild msi-gl63 system
-
 # Utilities
 ./switch.sh update-fish      # Update fish completions
 ./switch.sh update-nix-index # Update nix-index database
 ```
+
+**Note:** Home Manager is now integrated into the NixOS configuration. Running `./switch.sh msi` will automatically apply both system and home-manager configurations for the lnnam user.
 
 ## :gear: Customization
 
@@ -365,17 +368,36 @@ The switch.sh script makes it easy to switch between different environments:
    sudo nixos-generate-config --dir ./system/machine/my-machine
    ```
 
-2. Create machine configuration:
+2. Create machine configuration with integrated home-manager:
    ```nix
    # system/machine/my-machine/default.nix
-   { pkgs, ... }: {
+   { pkgs, inputs, ... }: {
      imports = [
        ./hardware-configuration.nix
        ../../wm/xmonad.nix  # Choose your WM
      ];
 
      networking.hostName = "my-machine";
-     # Add machine-specific settings
+
+     # Home-manager integration
+     home-manager = {
+       useGlobalPkgs = true;
+       useUserPackages = true;
+       extraSpecialArgs = pkgs.xargs;
+
+       users.lnnam = {
+         imports = [
+           inputs.neovim-flake.homeManagerModules.${pkgs.system}.default
+           inputs.nix-index.homeManagerModules.${pkgs.system}.default
+           ../../../home/users/lnnam/xmonad.nix  # Choose your profile
+           {
+             nix.registry.nixpkgs.flake = inputs.nixpkgs;
+             hidpi = false;
+             dotfiles.mutable = true;
+           }
+         ];
+       };
+     };
    }
    ```
 
@@ -386,12 +408,29 @@ The switch.sh script makes it easy to switch between different environments:
 
 ### Changing Window Manager
 
-Edit your machine's default.nix:
+To change your window manager, update both the system and home-manager imports in your machine's default.nix:
+
 ```nix
-imports = [
-  ./hardware-configuration.nix
-  ../../wm/xfce.nix     # or xmonad.nix, niri.nix, hyprland.nix, gnome.nix
-];
+# system/machine/my-machine/default.nix
+{ pkgs, inputs, ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    ../../wm/gnome.nix  # System-level WM config (xfce.nix, xmonad.nix, niri.nix, hyprland.nix, gnome.nix)
+  ];
+
+  home-manager.users.lnnam = {
+    imports = [
+      # ... other imports ...
+      ../../../home/users/lnnam/gnome.nix  # User-level WM config (must match system WM)
+      # ...
+    ];
+  };
+}
+```
+
+Then rebuild:
+```bash
+sudo nixos-rebuild switch --flake .#my-machine
 ```
 
 ## :books: Resources
