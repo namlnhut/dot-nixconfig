@@ -185,8 +185,6 @@
       homeConfigurations = pkgs.builders.mkHome { };
       nixosConfigurations = pkgs.builders.mkNixos { };
 
-      out = { inherit pkgs overlays; };
-
       schemas =
         inputs.flake-schemas.schemas //
         import ./lib/schemas.nix { inherit (inputs) flake-schemas; };

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
@@ -6,6 +6,26 @@
     ./hardware-configuration.nix
     ../../wm/xmonad.nix
   ];
+
+  # Home-manager integration for lnnam user
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = pkgs.xargs;
+
+    users.lnnam = {
+      imports = [
+        inputs.neovim-flake.homeManagerModules.${pkgs.system}.default
+        inputs.nix-index.homeManagerModules.${pkgs.system}.default
+        ../../../home/users/lnnam/xmonad.nix
+        {
+          nix.registry.nixpkgs.flake = inputs.nixpkgs;
+          hidpi = false;
+          dotfiles.mutable = true;
+        }
+      ];
+    };
+  };
 
   # Bootloader
   boot = {
