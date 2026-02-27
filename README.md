@@ -4,243 +4,405 @@
 
 # :space_invader: NixOS Config :space_invader:
 
-[![ci-badge](https://img.shields.io/static/v1?label=Built%20with&message=nix&color=blue&style=flat&logo=nixos&link=https://nixos.org&labelColor=111212)](https://gvolpe.com)
-[![Home](https://github.com/gvolpe/nix-config/actions/workflows/home.yml/badge.svg)](https://github.com/gvolpe/nix-config/actions/workflows/home.yml)
-[![NixOS](https://github.com/gvolpe/nix-config/actions/workflows/nixos.yml/badge.svg)](https://github.com/gvolpe/nix-config/actions/workflows/nixos.yml)
-[![garnix](https://img.shields.io/endpoint?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fgvolpe%2Fnix-config%3Fbranch%3Dmaster)](https://garnix.io)
+[![ci-badge](https://img.shields.io/static/v1?label=Built%20with&message=nix&color=blue&style=flat&logo=nixos&link=https://nixos.org&labelColor=111212)](https://lnhutnam.github.io)
+[![Home](https://github.com/namlnhut/dot-nixconfig/actions/workflows/home.yml/badge.svg)](https://github.com/namlnhut/dot-nixconfig/actions/workflows/home.yml)
+[![NixOS](https://github.com/namlnhut/dot-nixconfig/actions/workflows/nixos.yml/badge.svg)](https://github.com/namlnhut/dot-nixconfig/actions/workflows/nixos.yml)
+[![garnix](https://img.shields.io/endpoint?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fnamlnhut%2Fdot-nixconfig%3Fbranch%3Dmain)](https://garnix.io)
 
 My current — and always evolving — [NixOS](https://nixos.org/) and [Home Manager](https://github.com/nix-community/home-manager/) configurations.
+
 </div>
 
-## Niri
+## :pray: Acknowledgments
 
-My current window manager — a scrollable-tiling Wayland compositor.
+This configuration is based on the excellent work by [Gabriel Volpe (@gvolpe)](https://github.com/gvolpe).
 
-![workspace](imgs/niri/workspace.png)
+**Original repository:** [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
 
-<details>
-<summary>Environment details</summary>
+Special thanks to Gabriel for creating such a well-structured, modular, and comprehensive NixOS configuration that serves as an excellent foundation for learning and building upon. His work has been invaluable in helping me understand the power and flexibility of NixOS and Nix flakes.
 
-| Type           | Program      |
-| :------------- | :----------: |
-| Editor         | [NeoVim](https://neovim.io/) |
-| Launcher       | [Fuzzel](https://codeberg.org/dnkl/fuzzel) |
-| Shell          | [Fish](https://fishshell.com/) |
-| Status Bar     | [Waybar](https://github.com/Alexays/Waybar) |
-| Terminal       | [Kitty](https://sw.kovidgoyal.net/kitty) |
-| Window Manager | [Niri](https://github.com/YaLTeR/niri) |
-| File Manager   | [Nemo](https://github.com/linuxmint/nemo) |
-| Notifications  | [Sway NC](https://github.com/ErikReider/SwayNotificationCenter) |
-| Wallpapers     | [Hyprlax](https://github.com/sandwichfarm/hyprlax) |
-| GTK Theme      | [Juno Ocean](https://github.com/EliverLara/Juno) |
-| GTK Icon Theme | [Beauty Line](https://www.gnome-look.org/p/1425426/) |
-| Terminal Font  | [JetBrainsMono](https://www.jetbrains.com/lp/mono/) |
+## :desktop_computer: My Configurations
 
-</details>
+This repository contains configurations for multiple window managers and desktop environments, all managed declaratively with Nix.
 
-<details>
-<summary>Expand to see more screenshots</summary>
+### Supported Systems
 
-![overview](imgs/niri/overview0.png)
+- **msi-gl63** - My main MSI GL63 laptop
 
-![swaylock](imgs/niri/swaylock.png)
+### Available Environments
 
-![swaync](imgs/niri/swaync.png)
+#### :globe_with_meridians: Desktop Environments
 
-![workspace1](imgs/niri/workspace1.png)
+**XFCE** - Traditional, lightweight desktop
+- XFCE panel with plugins (pulseaudio, battery, clipman, whiskermenu)
+- Thunar file manager
+- LightDM display manager
 
-![nemo](imgs/niri/nemo.png)
+**GNOME** - Modern, polished desktop
+- GNOME Shell with extensions (dash-to-dock, appindicator, vitals)
+- GTK4 applications
+- GDM display manager
 
-![fuzzel](imgs/niri/fuzzel.png)
+#### :window: Window Managers
 
-![wlogout](imgs/niri/wlogout.png)
+**XMonad** - Tiling window manager (X11)
+- Haskell-based configuration
+- Polybar status bar
+- Rofi launcher, Dunst notifications
+- Alacritty terminal
 
-![hyprlax](imgs/niri/hyprlax.png)
+**Hyprland** - Dynamic tiling Wayland compositor
+- Modern Wayland compositor
+- Waybar status bar
+- Wofi launcher, Foot terminal
+- Full animations and effects
 
-</details>
+**Niri** - Scrollable tiling Wayland compositor
+- Unique scrollable workspace paradigm
+- Waybar status bar
+- Fuzzel launcher, Kitty terminal
+- SwayNC notifications
 
-## Hyprland
+## :rocket: Quick Start
 
-My first Wayland compositor experience.
+### Switch Home Manager Configuration
 
-![hyprland](imgs/hyprland/hyprland-2024.png)
+Use the convenient switch script:
 
-<details>
-<summary>Environment details</summary>
+```bash
+cd nix-config
 
-| Type           | Program      |
-| :------------- | :----------: |
-| Editor         | [NeoVim](https://neovim.io/) |
-| Launcher       | [Wofi](https://sr.ht/~scoopta/wofi) |
-| Shell          | [Fish](https://fishshell.com/) |
-| Status Bar     | [Waybar](https://github.com/Alexays/Waybar) |
-| Terminal       | [Foot](https://codeberg.org/dnkl/foot) |
-| Window Manager | [Hyprland](https://hyprland.org/) |
-| File Manager   | [Nemo](https://github.com/linuxmint/nemo) |
-| Notifications  | [Dunst](https://github.com/dunst-project/dunst) |
-| GTK Theme      | [Juno Ocean](https://github.com/EliverLara/Juno) |
-| GTK Icon Theme | [Beauty Line](https://www.gnome-look.org/p/1425426/) |
-| Terminal Font  | [JetBrainsMono](https://www.jetbrains.com/lp/mono/) |
+# Switch to XFCE
+./switch.sh lnnam-xfce
 
-</details>
+# Switch to XMonad
+./switch.sh lnnam-xmonad
 
-<details>
-<summary>Expand to see more screenshots</summary>
+# Switch to Niri
+./switch.sh lnnam-niri
 
-![hyprlock](imgs/hyprland/hyprlock.png)
+# Switch to Hyprland
+./switch.sh lnnam-hyprland
 
-![floating](imgs/hyprland/floating.png)
+# Switch to GNOME
+./switch.sh lnnam-gnome
+```
 
-![btm](imgs/hyprland/btm.png)
+### Rebuild System Configuration
 
-![nemo](imgs/hyprland/nemo.png)
+```bash
+cd nix-config
 
-![binds](imgs/hyprland/hypr-binds.png)
+# Rebuild MSI GL63 system
+./switch.sh msi
 
-</details>
+# Or manually
+sudo nixos-rebuild switch --flake .#msi-gl63
+```
 
-## XMonad
+### Manual Home Manager Switch
 
-XMonad will be forever in my heart — the best X window manager!
+```bash
+home-manager switch --flake .#lnnam-xfce
+home-manager switch --flake .#lnnam-xmonad
+home-manager switch --flake .#lnnam-niri
+home-manager switch --flake .#lnnam-hyprland
+home-manager switch --flake .#lnnam-gnome
+```
 
-![neofetch](imgs/xmonad/neofetch.png)
-
-<details>
-<summary>Environment details</summary>
-
-| Type           | Program      |
-| :------------- | :----------: |
-| Editor         | [NeoVim](https://neovim.io/) |
-| Launcher       | [Rofi](https://github.com/davatorium/rofi) |
-| Shell          | [Fish](https://fishshell.com/) |
-| Status Bar     | [Polybar](https://polybar.github.io/) |
-| Terminal       | [Alacritty](https://github.com/alacritty/alacritty) |
-| Window Manager | [XMonad](https://xmonad.org/) |
-| File Manager   | [Nautilus](https://gitlab.gnome.org/GNOME/nautilus) |
-| Notifications  | [Dunst](https://github.com/dunst-project/dunst) |
-| GTK Theme      | [Juno Ocean](https://github.com/EliverLara/Juno) |
-| GTK Icon Theme | [Beauty Line](https://www.gnome-look.org/p/1425426/) |
-| Terminal Font  | [JetBrainsMono](https://www.jetbrains.com/lp/mono/) |
-
-</details>
-
-<details>
-<summary>Expand to see more screenshots</summary>
-
-![cowsay](imgs/xmonad/cowsay.png)
-
-![scala-dev-env](imgs/xmonad/scala-dev.png)
-
-![desktop](imgs/xmonad/desktop-1.jpg)
-
-![themes](imgs/xmonad/theme.jpg)
-
-![demo](imgs/xmonad/demo.png)
-
-</details>
-
-## NeoVim
-
-My NeoVim configuration lives here: https://github.com/gvolpe/neovim-flake
-
-## Structure
+## :page_facing_up: Structure
 
 [![diagram](imgs/diagram.png)](https://excalidraw.com/#json=HN_V0f2FpcX4YZPR-FKzO,MJR6ILT6va5BZ0r5Yo41Zw)
 
-## Flake outputs
+### Directory Layout
+
+```
+nix-config/
+├── flake.nix              # Main flake configuration
+├── switch.sh              # Convenient switch script
+├── home/                  # Home Manager configurations
+│   ├── users/
+│   │   └── lnnam/        # My user configurations
+│   │       ├── shared.nix      # Shared settings
+│   │       ├── xfce.nix        # XFCE config
+│   │       ├── xmonad.nix      # XMonad config
+│   │       ├── niri.nix        # Niri config
+│   │       ├── hyprland.nix    # Hyprland config
+│   │       └── gnome.nix       # GNOME config
+│   ├── wm/               # Window manager configs
+│   ├── programs/         # Program configurations
+│   └── services/         # Service configurations
+├── system/               # NixOS system configurations
+│   ├── configuration.nix # Main system config
+│   ├── machine/
+│   │   └── msi-gl63/    # MSI GL63 laptop config
+│   │       ├── default.nix
+│   │       └── hardware-configuration.nix
+│   └── wm/              # System-level WM configs
+│       ├── xfce.nix
+│       ├── xmonad.nix
+│       ├── niri.nix
+│       ├── hyprland.nix
+│       └── gnome.nix
+└── outputs/             # Flake outputs
+    ├── os.nix          # NixOS configurations
+    └── hm.nix          # Home Manager configurations
+```
+
+## :package: Flake Outputs
 
 <details>
-<summary>Expand to see available ouputs</summary>
+<summary>Expand to see available outputs</summary>
+
+### Home Configurations
+
+**lnnam user configurations:**
+- `lnnam-xfce` - XFCE desktop environment
+- `lnnam-xmonad` - XMonad window manager
+- `lnnam-niri` - Niri scrollable compositor
+- `lnnam-hyprland` - Hyprland dynamic tiling compositor
+- `lnnam-gnome` - GNOME desktop environment
+
+**Original gvolpe configurations** (maintained for reference):
+- `hyprland-edp` - Hyprland for laptop display
+- `hyprland-hdmi` - Hyprland for external display
+- `hyprland-hdmi-mutable` - Hyprland (mutable dotfiles)
+- `xmonad-edp` - XMonad for laptop display
+- `xmonad-hdmi` - XMonad for external display
+- `niri-edp` - Niri for laptop display
+- `niri-hdmi` - Niri for external display
+
+### NixOS Configurations
+
+**My systems:**
+- `msi-gl63` - MSI GL63 laptop (XMonad by default)
+
+**Original gvolpe systems** (maintained for reference):
+- `dell-xps` - Dell XPS 15 9560
+- `thinkpad-x1` - ThinkPad X1 Carbon
+- `tongfang-amd` - Tongfang AMD laptop
+- `xmod` - Custom configuration
+
+### Packages
 
 ```console
-$ nix flake show github:gvolpe/nix-config
-├───apps
-│   └───x86_64-linux
-│       └───nix: app
+$ nix flake show
 ├───homeConfigurations
-│   ├───hyprland-edp: Home Manager configuration [home-manager-generation]
-│   ├───hyprland-hdmi: Home Manager configuration [home-manager-generation]
-│   ├───hyprland-hdmi-mutable: Home Manager configuration [home-manager-generation]
-│   ├───xmonad-edp: Home Manager configuration [home-manager-generation]
-│   └───xmonad-hdmi: Home Manager configuration [home-manager-generation]
+│   ├───lnnam-gnome: Home Manager configuration
+│   ├───lnnam-hyprland: Home Manager configuration
+│   ├───lnnam-niri: Home Manager configuration
+│   ├───lnnam-xfce: Home Manager configuration
+│   ├───lnnam-xmonad: Home Manager configuration
+│   ├───hyprland-edp: Home Manager configuration
+│   ├───hyprland-hdmi: Home Manager configuration
+│   ├───hyprland-hdmi-mutable: Home Manager configuration
+│   ├───niri-edp: Home Manager configuration
+│   ├───niri-hdmi: Home Manager configuration
+│   ├───xmonad-edp: Home Manager configuration
+│   └───xmonad-hdmi: Home Manager configuration
 ├───nixosConfigurations
-│   ├───dell-xps: NixOS configuration [nixos-system-dell-xps-15-9560-24.11.20240620.d603719]
-│   ├───thinkpad: NixOS configuration [nixos-system-thinkpad-x1-24.11.20240620.d603719]
-│   ├───tongfang-amd: NixOS configuration [nixos-system-thinkpad-x1-24.11.20240620.d603719]
-│   └───xmod: NixOS configuration [nixos-system-tongfang-amd-24.11.20240620.d603719]
-├───out
-│   ├───overlays: custom instance to be used by consumers of this flake
-│   └───pkgs: custom instance to be used by consumers of this flake
+│   ├───msi-gl63: NixOS configuration
+│   ├───dell-xps: NixOS configuration
+│   ├───thinkpad-x1: NixOS configuration
+│   ├───tongfang-amd: NixOS configuration
+│   └───xmod: NixOS configuration
 └───packages
     └───x86_64-linux
-        ├───bazecor: package [bazecor-1.5.4-patched]
-        ├───metals: package [metals-1.4.1]
-        ├───metals-updater: package [metals-updater-script]
-        ├───neovim: package [neovim-0.10.2]
-        ├───slack: package [slack-4.41.97]
-        └───zoom-us: package [zoom-6.0.2.4680]
-```
-
-As well as all the declared flake inputs.
-
-```console
-nix flake metadata github:gvolpe/nix-config
+        ├───bazecor: package
+        ├───metals: package
+        ├───metals-updater: package
+        ├───neovim: package
+        └───...
 ```
 
 </details>
 
-<details>
-<summary>Further installation instructions</summary>
+## :wrench: Configuration Details
 
-### Install
+### System Features
 
-The `xmod` configuration also contains my Home Manager configuration using the NixOS module, so it can easily be tested with a single command.
+- **Locale**: English (US) with Vietnamese regional formats
+- **Timezone**: Asia/Ho_Chi_Minh
+- **Bootloader**: systemd-boot with UEFI
+- **Audio**: PipeWire with ALSA/PulseAudio compatibility
+- **Network**: NetworkManager with OpenVPN support
+- **Virtualization**: Docker with auto-pruning
+- **Nix**: Flakes enabled, automatic garbage collection
 
-```console
-nixos-rebuild switch --flake github:gvolpe/nix-config#xmod
+### User Setup
+
+- **User**: lnnam
+- **Shell**: Fish
+- **Groups**: wheel, networkmanager, docker, scanner, lp
+- **Home Manager**: Separate configurations per environment
+
+### Binary Caches
+
+- **cache.nixos.org** - Official NixOS cache
+- **cache.garnix.io** - Garnix CI cache (free builds)
+- **namlnhut.cachix.org** - Personal Cachix cache
+
+## :hammer_and_wrench: Installation
+
+### Fresh NixOS Install
+
+1. Boot from NixOS installation media
+2. Partition and format your disk
+3. Generate hardware configuration:
+   ```bash
+   nixos-generate-config --root /mnt
+   ```
+4. Clone this repository:
+   ```bash
+   git clone https://github.com/namlnhut/nix-config.git /mnt/etc/nixos/nix-config
+   ```
+5. Copy your hardware-configuration.nix:
+   ```bash
+   cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/nix-config/system/machine/msi-gl63/
+   ```
+6. Install:
+   ```bash
+   nixos-install --flake /mnt/etc/nixos/nix-config#msi-gl63
+   ```
+
+### Existing NixOS System
+
+1. Clone this repository
+2. Update hardware-configuration.nix for your machine
+3. Build and switch:
+   ```bash
+   sudo nixos-rebuild switch --flake .#msi-gl63
+   ```
+4. Install Home Manager configuration:
+   ```bash
+   home-manager switch --flake .#lnnam-xmonad
+   ```
+
+## :computer: Environment Details
+
+### Common Components
+
+| Component | Program |
+|-----------|---------|
+| Editor | [NeoVim](https://neovim.io/) |
+| Shell | [Fish](https://fishshell.com/) |
+| Browser | [Firefox](https://www.mozilla.org/firefox/) |
+| File Manager | Nautilus (XMonad), Nemo (Wayland), Thunar (XFCE) |
+| Terminal Font | [JetBrainsMono Nerd Font](https://www.jetbrains.com/lp/mono/) |
+
+### XFCE Setup
+
+- **Display Manager**: LightDM
+- **Panel**: XFCE Panel with plugins
+- **Launcher**: Whisker Menu
+- **Terminal**: XFCE Terminal
+- **Screenshot**: Flameshot
+
+### XMonad Setup
+
+- **Status Bar**: Polybar
+- **Launcher**: Rofi
+- **Terminal**: Alacritty
+- **Compositor**: Picom
+- **Notifications**: Dunst
+- **Screen Locker**: Multilockscreen
+
+### Niri Setup
+
+- **Status Bar**: Waybar
+- **Launcher**: Fuzzel
+- **Terminal**: Kitty
+- **Notifications**: SwayNC
+- **Wallpaper**: Waypaper + Hyprlax
+- **Special Tools**: niri-scratchpad, nfsm
+
+### Hyprland Setup
+
+- **Status Bar**: Waybar
+- **Launcher**: Wofi
+- **Terminal**: Foot
+- **Notifications**: Dunst
+- **Screen Locker**: Hyprlock
+- **Idle Manager**: Hypridle
+- **Plugins**: Pyprland
+
+### GNOME Setup
+
+- **Display Manager**: GDM
+- **Extensions**: Dash to Dock, AppIndicator, Vitals, Caffeine
+- **File Manager**: Nautilus
+- **Terminal**: GNOME Terminal
+
+## :arrows_counterclockwise: Switching Between Environments
+
+The switch.sh script makes it easy to switch between different environments:
+
+```bash
+# List all available options
+./switch.sh
+
+# Home Manager configurations
+./switch.sh lnnam-xfce       # Switch to XFCE
+./switch.sh lnnam-xmonad     # Switch to XMonad
+./switch.sh lnnam-niri       # Switch to Niri
+./switch.sh lnnam-hyprland   # Switch to Hyprland
+./switch.sh lnnam-gnome      # Switch to GNOME
+
+# System rebuild
+./switch.sh msi              # Rebuild msi-gl63 system
+
+# Utilities
+./switch.sh update-fish      # Update fish completions
+./switch.sh update-nix-index # Update nix-index database
 ```
 
-Or you can test it directly on a QEMU virtual machine, though it has its limitations in terms of graphics.
+## :gear: Customization
 
-```console
-nixos-rebuild build-vm --flake github:gvolpe/nix-config#xmod
-./result/bin/run-xmod-amd-vm
+### Adding a New Machine
+
+1. Generate hardware configuration:
+   ```bash
+   sudo nixos-generate-config --dir ./system/machine/my-machine
+   ```
+
+2. Create machine configuration:
+   ```nix
+   # system/machine/my-machine/default.nix
+   { pkgs, ... }: {
+     imports = [
+       ./hardware-configuration.nix
+       ../../wm/xmonad.nix  # Choose your WM
+     ];
+
+     networking.hostName = "my-machine";
+     # Add machine-specific settings
+   }
+   ```
+
+3. Add to outputs/os.nix:
+   ```nix
+   hosts = [ ... "my-machine" ];
+   ```
+
+### Changing Window Manager
+
+Edit your machine's default.nix:
+```nix
+imports = [
+  ./hardware-configuration.nix
+  ../../wm/xfce.nix     # or xmonad.nix, niri.nix, hyprland.nix, gnome.nix
+];
 ```
 
-Having both NixOS and Home Manager configurations combined makes it easier to quickly install it on a new machine, but my preference is to have both separate, as my Home Manager configuration changes more often than that of the NixOS one, which can result in multiple (unwanted) generations at boot time.
+## :books: Resources
 
-Managing the different Home Manager generations in isolation makes this way easier for me.
+- [NixOS Manual](https://nixos.org/manual/nixos/stable/)
+- [Home Manager Manual](https://nix-community.github.io/home-manager/)
+- [Nix Flakes](https://nixos.wiki/wiki/Flakes)
+- [Original gvolpe/nix-config](https://github.com/gvolpe/nix-config) - The foundation of this config
 
-### NixOS
+## :memo: LICENSE
 
-The NixOS configuration can be installed by running the following command.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
 
-```console
-nixos-rebuild switch --flake github:gvolpe/nix-config#thinkpad-x1
-```
-
-Beware that the `hardware-configuration.nix` file is the result of the hardware scan of the specific machine and might not be suitable for yours.
-
-### Home Manager
-
-A fresh install requires the creation of certain directories (see what the `switch` script does). However, if you omit those steps, the entire HM configuration can also be built as any other flake.
-
-```console
-nix build github:gvolpe/nix-config#homeConfigurations.xmonad-edp.activationPackage
-result/activate
-```
-
-### Fresh install
-
-To set up a new machine from scratch, have a look at [this document](./notes/new-machine.md).
-
-</details>
-
-## LICENSE
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project except in compliance with
-the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
