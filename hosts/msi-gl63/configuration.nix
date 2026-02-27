@@ -23,6 +23,15 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  users.users.lnnam = {
+  isNormalUser = true;
+  extraGroups = [ "wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
+  packages = with pkgs; [
+    firefox
+    tree
+  ];
+};
   
   # Set your time zone.
   time.timeZone = "Asia/Ho_Chi_Minh";

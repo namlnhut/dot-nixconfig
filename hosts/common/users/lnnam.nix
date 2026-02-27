@@ -5,9 +5,9 @@
   ...
 }: {
   users.users.lnnam = {
-    initialHashedPassword = "$y$j9T$Ola4P98lGS8ViMwDBOiSD1$c7DjNIjy0SToAIRT2mnIj9jkvTR4hGmede0Kf3kpkE6";
+    initialHashedPassword = "$y$j9T$.06GPjdV73bQCm20P2hr41$9YCZQVO.vRLw3cCIiYhOPZO4uy8NzwXsxV5KkQxuiK8";
     isNormalUser = true;
-    description = "m3tam3re";
+    description = "lnnam";
     extraGroups = [
       "wheel"
       "networkmanager"
@@ -18,8 +18,9 @@
       "plugdev"
       "input"
       "kvm"
-      "qemu-libvirtd"];
+      "qemu-libvirtd"
     ];
+    openssh.authorizedKeys.keys = [];
     packages = [inputs.home-manager.packages.${pkgs.system}.default];
   };
   home-manager.users.lnnam =
