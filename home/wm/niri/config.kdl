@@ -1,0 +1,41 @@
+// This config is in the KDL format: https://kdl.dev
+// "/-" comments out the following node.
+// Check the wiki for a full description of the configuration:
+// https://yalter.github.io/niri/Configuration:-Introduction
+
+include "config/windows.kdl"
+include "config/input.kdl"
+include "config/output.kdl"
+include "config/layout.kdl"
+include "config/binds.kdl"
+include "config/misc.kdl"
+include "config/workspaces.kdl"
+include "config/layers.kdl"
+
+// essential apps
+spawn-at-startup "firefox-beta"
+spawn-at-startup "spotify"
+spawn-at-startup "nemo"
+spawn-at-startup "pavucontrol"
+
+// systray apps
+spawn-at-startup "blueman-applet"
+spawn-sh-at-startup "nm-applet --sm-disable --indicator"
+
+// wallpaper
+spawn-sh-at-startup "waypaper --restore"
+//spawn-sh-at-startup "hyprlax ~/Pictures/wallpapers/4k-sci-fi/685192.jpg"
+
+// workspace apps
+spawn-sh-at-startup "kitty -d ~/workspace/nix-config --app-id='nitch' --hold fish -c 'nitch' &"
+spawn-sh-at-startup "kitty -d ~/workspace/nix-config --app-id='neofetch' --hold fish -c 'neofetch' &"
+spawn-sh-at-startup "kitty -d ~/workspace/nix-config --app-id='btm-monitor' --hold fish -c 'btm' &"
+
+// sticky windows support daemon
+spawn-sh-at-startup "nsticky"
+
+// niri fullscreen manager
+spawn-sh-at-startup "nfsm"
+
+// idle inhibitor
+spawn-sh-at-startup "sway-audio-idle-inhibit --ignore-source-outputs 'cava,PulseAudio Volume Control'"

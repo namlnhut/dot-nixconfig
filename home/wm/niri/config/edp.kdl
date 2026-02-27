@@ -1,0 +1,40 @@
+// laptop's builtin display
+output "eDP-1" {
+    //off
+    mode "2880x1800@90.00100"
+    scale 2
+    transform "normal"
+    position x=1280 y=0
+}
+
+// portable monitor
+output "DP-1" {
+    mode "2560x1440@60.000"
+    scale 1.25
+    transform "normal"
+    position x=0 y=0
+}
+
+// laptop switch events
+switch-events {
+    lid-close { spawn "swaylock-cmd"; }
+}
+
+// scratchpad window sizes on laptop's screen
+window-rule {
+    match app-id="nemo"
+    default-column-width { fixed 853; }
+    default-window-height { fixed 506; }
+}
+
+window-rule {
+    match app-id="spotify"
+    default-column-width { fixed 1132; }
+    default-window-height { fixed 793; }
+}
+
+window-rule {
+    match app-id="org.pulseaudio.pavucontrol"
+    default-column-width { fixed 968; }
+    default-window-height { fixed 633; }
+}
