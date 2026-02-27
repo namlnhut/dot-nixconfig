@@ -15,7 +15,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "msi-gl63"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -23,12 +23,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Enable flakes permanently
-  nix.settings.experimental-features = [ "nix-command" "flakes"];
   
-  nix.settings.trusted-users = ["root" "lnnam"];
-
   # Set your time zone.
   time.timeZone = "Asia/Ho_Chi_Minh";
 
@@ -64,7 +59,8 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
+  #services.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -81,14 +77,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.lnnam = {
-    isNormalUser = true;
-    description = "Le Nhut Nam";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -107,6 +95,7 @@
 	tealdeer	# Hmm, tldr but fast (written in Rust)
 	xclip		# Clipboard for X
 	bat		# Like cat but faster (written in Rust)
+	openssh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -120,7 +109,11 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = { 
+  	enable = true;
+	settings.PermitRootLogin = "no";
+	allowSFTP = true;
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
