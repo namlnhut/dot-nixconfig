@@ -206,14 +206,15 @@ in
 
       # Binary caches
       substituters = [
-        "https://cache.nixos.org"
-        "https://cache.garnix.io"
-        "https://gvolpe-nixos.cachix.org"
+        "https://cache.nixos.org"         # Official NixOS binary cache
+        "https://cache.garnix.io"         # Garnix CI cache (free for open source)
+        "https://namlnhut.cachix.org"     # Your own Cachix cache (optional)
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-        "gvolpe-nixos.cachix.org-1:0MPlBIMwYmrNqoEaYTox15Ds2t1+3R+6Ycj0hZWMcL0="
+        # "namlnhut-nixos.cachix.org-1:YOUR_PUBLIC_KEY_HERE"  # Add your Cachix public key
+        "namlnhut.cachix.org-1:4u6WU/1M17lehGqge9s92V2eVxT+nJUc357JDTdHj7A="
       ];
 
       # Avoid unwanted garbage collection when using nix-direnv

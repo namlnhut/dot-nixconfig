@@ -2,5 +2,12 @@ builds:
  exclude: []
  include:
  - '*.x86_64-linux.*'
- - homeConfigurations.*
- - nixosConfigurations.*
+ - homeConfigurations.lnnam-*
+ - homeConfigurations.hyprland-*
+ - homeConfigurations.xmonad-*
+ - homeConfigurations.niri-*
+ - nixosConfigurations.msi-gl63
+ - nixosConfigurations.dell-xps
+ - nixosConfigurations.thinkpad-x1
+ - nixosConfigurations.tongfang-amd
+ - nixosConfigurations.xmod
