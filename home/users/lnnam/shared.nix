@@ -59,6 +59,19 @@ in
 
     changes-report.enable = true;
 
+    # Backup existing files when home-manager would overwrite them
+    # Option 1: Simple backup - adds .backup extension to conflicting files
+    backupFileExtension = "backup";
+
+    # Option 2: Custom backup command (comment out backupFileExtension above to use this)
+    # This example moves files to a backup directory with timestamp
+    # backCommand = ''
+    #   BACKUP_DIR="${homeDirectory}/.config-backups/$(${pkgs.coreutils}/bin/date +%Y%m%d_%H%M%S)"
+    #   ${pkgs.coreutils}/bin/mkdir -p "$BACKUP_DIR"
+    #   ${pkgs.coreutils}/bin/mv "$1" "$BACKUP_DIR/$(${pkgs.coreutils}/bin/basename "$1")"
+    #   ${pkgs.coreutils}/bin/echo "Backed up $1 to $BACKUP_DIR"
+    # '';
+
     sessionVariables = {
       BROWSER = "${lib.exe pkgs.firefox}";
       DISPLAY = ":0";
