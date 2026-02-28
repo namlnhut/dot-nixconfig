@@ -1,3 +1,6 @@
+.vscode
+.claude
+
 nixos/home/result
 result
 *.qcow2

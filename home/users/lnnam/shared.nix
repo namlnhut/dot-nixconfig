@@ -59,6 +59,9 @@ in
 
     changes-report.enable = true;
 
+    # Backup existing files when home-manager tries to create symlinks
+    backupFileExtension = "backup";
+
     sessionVariables = {
       BROWSER = "${lib.exe pkgs.firefox}";
       DISPLAY = ":0";
