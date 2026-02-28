@@ -1,6 +1,8 @@
 { pkgs, inputs, ... }:
 
 let
+  inherit (pkgs.stdenv.hostPlatform) system;
+
   # Choose your window manager: "xmonad" | "niri" | "gnome" | "hyprland" | "xfce"
   # Change this to switch window managers
   selectedWM = "xmonad";
@@ -13,7 +15,17 @@ let
     xfce = ../../wm/xfce.nix;
   };
 
+  # Map WM to home configuration
+  wmHomeConfigs = {
+    xmonad = ../../../home/users/lnnam/xmonad.nix;
+    niri = ../../../home/users/lnnam/niri.nix;
+    gnome = ../../../home/users/lnnam/gnome.nix;
+    hyprland = ../../../home/users/lnnam/hyprland.nix;
+    xfce = ../../../home/users/lnnam/xfce.nix;
+  };
+
   currentWM = wmConfigs.${selectedWM};
+  currentHomeConfig = wmHomeConfigs.${selectedWM};
 in
 {
   imports = [
@@ -21,6 +33,23 @@ in
     ./hardware-configuration.nix
     # Window manager system configuration
     currentWM
+    # Home manager NixOS module
+    inputs.home-manager.nixosModules.home-manager
+    # Home manager configuration
+    {
+      home-manager = {
+        extraSpecialArgs = pkgs.xargs;
+        useGlobalPkgs = true;
+
+        sharedModules = [
+          inputs.neovim-flake.homeManagerModules.${system}.default
+          inputs.nix-index.homeManagerModules.${system}.default
+          ({ nix.registry.nixpkgs.flake = inputs.nixpkgs; })
+        ];
+
+        users.lnnam = import currentHomeConfig;
+      };
+    }
   ];
 
   # Bootloader
