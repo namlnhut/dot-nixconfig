@@ -87,7 +87,7 @@ in
 
   home = {
     inherit packages;
-    stateVersion = "24.05";
+    stateVersion = "25.11";
 
     sessionVariables = {
       NIXOS_OZONE_WL = 1;
