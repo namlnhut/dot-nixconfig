@@ -7,6 +7,27 @@
     ../../wm/niri.nix
   ];
 
+  # Home Manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+    extraSpecialArgs = pkgs.xargs;
+
+    users.lnnam = {
+      imports = [
+        inputs.neovim-flake.homeManagerModules.${pkgs.system}.default
+        inputs.nix-index.homeManagerModules.${pkgs.system}.default
+        inputs.hypr-binds-flake.homeManagerModules.${pkgs.system}.default
+        ../../../home/wm/niri
+      ];
+
+      hidpi = false;
+      dotfiles.mutable = true;
+      nix.registry.nixpkgs.flake = inputs.nixpkgs;
+    };
+  };
+
   # Bootloader
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;

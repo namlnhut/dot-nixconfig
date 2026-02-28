@@ -10,6 +10,7 @@ let
     ../system/modules/globalprotectvpn.nix
     ../system/configuration.nix
     ../system/virtualisation.nix
+    inputs.home-manager.nixosModules.home-manager
     extraSystemConfig
     { nix.registry.nixpkgs.flake = inputs.nixpkgs; }
   ];
