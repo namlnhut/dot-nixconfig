@@ -86,7 +86,7 @@ in
   ];
 
   home = {
-    stateVersion = "21.03";
+    stateVersion = "24.05";
     packages = xmonadPkgs ++ gnomePkgs;
   };
 
