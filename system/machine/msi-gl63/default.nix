@@ -12,6 +12,8 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = pkgs.xargs;
+    # Backup existing files when home-manager creates symlinks
+    backupFileExtension = "backup";
 
     users.lnnam = {
       imports = [
