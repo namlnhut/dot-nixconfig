@@ -6,26 +6,11 @@ let
   selectedWM = "xmonad";
 
   wmConfigs = {
-    xmonad = {
-      system = ../../wm/xmonad.nix;
-      user = ../../../home/users/lnnam/xmonad.nix;
-    };
-    niri = {
-      system = ../../wm/niri.nix;
-      user = ../../../home/users/lnnam/niri.nix;
-    };
-    gnome = {
-      system = ../../wm/gnome.nix;
-      user = ../../../home/users/lnnam/gnome.nix;
-    };
-    hyprland = {
-      system = ../../wm/hyprland.nix;
-      user = ../../../home/users/lnnam/hyprland.nix;
-    };
-    xfce = {
-      system = ../../wm/xfce.nix;
-      user = ../../../home/users/lnnam/xfce.nix;
-    };
+    xmonad = ../../wm/xmonad.nix;
+    niri = ../../wm/niri.nix;
+    gnome = ../../wm/gnome.nix;
+    hyprland = ../../wm/hyprland.nix;
+    xfce = ../../wm/xfce.nix;
   };
 
   currentWM = wmConfigs.${selectedWM};
@@ -35,31 +20,8 @@ in
     # Hardware scan
     ./hardware-configuration.nix
     # Window manager system configuration
-    currentWM.system
+    currentWM
   ];
-
-  # Home-manager integration for lnnam user
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    extraSpecialArgs = pkgs.xargs;
-    # Backup existing files when home-manager creates symlinks
-    backupFileExtension = "backup";
-
-    users.lnnam = {
-      imports = [
-        inputs.neovim-flake.homeManagerModules.${pkgs.system}.default
-        inputs.nix-index.homeManagerModules.${pkgs.system}.default
-        # Window manager user configuration
-        currentWM.user
-        {
-          nix.registry.nixpkgs.flake = inputs.nixpkgs;
-          hidpi = false;
-          dotfiles.mutable = true;
-        }
-      ];
-    };
-  };
 
   # Bootloader
   boot = {

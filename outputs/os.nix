@@ -7,7 +7,6 @@ let
   hosts = [ "dell-xps" "thinkpad-x1" "tongfang-amd" "xmod" "msi-gl63" ];
 
   modules' = [
-    inputs.home-manager.nixosModules.home-manager
     ../system/modules/globalprotectvpn.nix
     ../system/configuration.nix
     ../system/virtualisation.nix
