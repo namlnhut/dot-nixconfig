@@ -42,7 +42,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Set your time zone.
-  time.timeZone = "Europe/Warsaw";
+  time.timeZone = "Asia/Ho_Chi_Minh";
 
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -81,7 +81,7 @@ in
     };
   };
 
-  users.extraGroups.vboxusers.members = [ "gvolpe" ];
+  users.extraGroups.vboxusers.members = [ "lnnam" ];
 
   security.rtkit.enable = true;
 
@@ -153,11 +153,17 @@ in
     fi
   '';
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.lnnam = {
     isNormalUser = true;
     # wheel for 'sudo', uucp for bazecor to access ttyAMC0 (keyboard firmware updates)
     extraGroups = [ "docker" "networkmanager" "wheel" "scanner" "lp" "uucp" ];
+    shell = pkgs.fish;
+  };
+
+  users.users.lnnam = {
+    isNormalUser = true;
+    extraGroups = [ "docker" "networkmanager" "wheel" "scanner" "lp" ];
     shell = pkgs.fish;
   };
 
@@ -200,12 +206,14 @@ in
 
       # Binary caches
       substituters = [
-        "https://cache.nixos.org"
-        "https://cache.garnix.io"
+        "https://cache.nixos.org"         # Official NixOS binary cache
+        "https://cache.garnix.io"         # Garnix CI cache (free for open source)
+        "https://namlnhut.cachix.org"     # Your own Cachix cache (optional)
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        # "namlnhut-nixos.cachix.org-1:YOUR_PUBLIC_KEY_HERE"  # Add your Cachix public key
         "namlnhut.cachix.org-1:4u6WU/1M17lehGqge9s92V2eVxT+nJUc357JDTdHj7A="
       ];
 
