@@ -24,13 +24,13 @@
       pulse.enable = true;
     };
 
-    displayManager = {
-      defaultSession = "none+xmonad";
-      lightdm.enable = true;
-    };
-
     xserver = {
       enable = true;
+
+      displayManager = {
+        defaultSession = "none+xmonad";
+        lightdm.enable = true;
+      };
 
       serverLayoutSection = ''
         Option "StandbyTime" "0"
