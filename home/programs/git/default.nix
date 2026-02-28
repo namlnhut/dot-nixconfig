@@ -52,8 +52,8 @@
         "ssh://git@gitlab.com".pushInsteadOf = "gl:";
       };
       user = {
-        email = "volpegabriel@gmail.com";
-        name = "Gabriel Volpe";
+        email = "nam.lnhut@gmail.com";
+        name = "namlnhut";
       };
     };
 
@@ -72,8 +72,8 @@
     ];
 
     signing = {
-      key = "121D4302A64B2261";
-      signByDefault = true;
+      key = null;  # Set to your GPG key ID if you want to sign commits
+      signByDefault = false;
     };
 
   } // (pkgs.sxm.git or { });

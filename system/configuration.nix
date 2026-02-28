@@ -81,7 +81,7 @@ in
     };
   };
 
-  users.extraGroups.vboxusers.members = [ "gvolpe" ];
+  users.extraGroups.vboxusers.members = [ "lnnam" ];
 
   security.rtkit.enable = true;
 
