@@ -42,6 +42,10 @@ rebuild_niri_hdmi() {
   activate_hm
 }
 
+rebuild_msi() {
+  sudo nixos-rebuild switch --flake .#msi-gl63
+}
+
 rebuild_thinkpad() {
   sudo nixos-rebuild switch --flake .#thinkpad-x1
 }
@@ -77,6 +81,8 @@ case $1 in
     nix-index --filter-prefix '/bin/';;
   "thinkpad")
     rebuild_thinkpad;;
+  "msi")
+    rebuild_msi;;
   "tongfang")
     rebuild_tongfang;;
   "vm")
