@@ -24,7 +24,10 @@
       pulse.enable = true;
     };
 
-    displayManager.defaultSession = "none+xmonad";
+    displayManager = {
+      defaultSession = "none+xmonad";
+      lightdm.enable = true;
+    };
 
     xserver = {
       enable = true;
