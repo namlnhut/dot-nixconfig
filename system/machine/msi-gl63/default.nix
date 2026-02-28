@@ -1,10 +1,41 @@
 { pkgs, inputs, ... }:
 
+let
+  # Choose your window manager: "xmonad" | "niri" | "gnome" | "hyprland" | "xfce"
+  # Change this to switch window managers
+  selectedWM = "xmonad";
+
+  wmConfigs = {
+    xmonad = {
+      system = ../../wm/xmonad.nix;
+      user = ../../../home/users/lnnam/xmonad.nix;
+    };
+    niri = {
+      system = ../../wm/niri.nix;
+      user = ../../../home/users/lnnam/niri.nix;
+    };
+    gnome = {
+      system = ../../wm/gnome.nix;
+      user = ../../../home/users/lnnam/gnome.nix;
+    };
+    hyprland = {
+      system = ../../wm/hyprland.nix;
+      user = ../../../home/users/lnnam/hyprland.nix;
+    };
+    xfce = {
+      system = ../../wm/xfce.nix;
+      user = ../../../home/users/lnnam/xfce.nix;
+    };
+  };
+
+  currentWM = wmConfigs.${selectedWM};
+in
 {
   imports = [
     # Hardware scan
     ./hardware-configuration.nix
-    ../../wm/xmonad.nix
+    # Window manager system configuration
+    currentWM.system
   ];
 
   # Home-manager integration for lnnam user
@@ -19,7 +50,8 @@
       imports = [
         inputs.neovim-flake.homeManagerModules.${pkgs.system}.default
         inputs.nix-index.homeManagerModules.${pkgs.system}.default
-        ../../../home/users/lnnam/xmonad.nix
+        # Window manager user configuration
+        currentWM.user
         {
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
           hidpi = false;

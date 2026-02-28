@@ -65,40 +65,24 @@ This repository contains configurations for multiple window managers and desktop
 
 ## :rocket: Quick Start
 
-### Unified System & Home Manager Rebuild
+### System & Home Manager Rebuild
 
-**Home Manager is now integrated into NixOS!** A single command applies both system and user configurations:
+**Home Manager is integrated into NixOS.** A single command applies both system and user configurations:
 
 ```bash
-cd nix-config
+cd ~/Sync/Config/Nix/nix-config
 
 # Rebuild MSI GL63 system (includes home-manager)
-./switch.sh msi
-
-# Or manually
 sudo nixos-rebuild switch --flake .#msi-gl63
+
+# Or use the switch script
+./switch.sh msi
 ```
 
 This will automatically:
 - Update your NixOS system configuration
 - Apply your home-manager configuration for the lnnam user
-- Make the `home-manager` command available
-
-### Standalone Home Manager (Optional)
-
-If you need to switch only your home-manager configuration without rebuilding the system:
-
-```bash
-# Use the switch script
-./switch.sh lnnam-xmonad
-
-# Or manually
-home-manager switch --flake .#lnnam-xfce
-home-manager switch --flake .#lnnam-xmonad
-home-manager switch --flake .#lnnam-niri
-home-manager switch --flake .#lnnam-hyprland
-home-manager switch --flake .#lnnam-gnome
-```
+- Backup existing config files with `.backup` extension if conflicts occur
 
 ## :page_facing_up: Structure
 
@@ -144,7 +128,23 @@ nix-config/
 <details>
 <summary>Expand to see available outputs</summary>
 
-### Home Configurations
+### NixOS Configurations (Primary Usage)
+
+**Recommended: Use NixOS configurations with integrated home-manager**
+
+- `msi-gl63` - MSI GL63 laptop with integrated home-manager
+  - Switch WMs by editing `selectedWM` variable in `system/machine/msi-gl63/default.nix`
+  - Rebuild with: `sudo nixos-rebuild switch --flake .#msi-gl63`
+
+**Original gvolpe systems** (maintained for reference):
+- `dell-xps` - Dell XPS 15 9560
+- `thinkpad-x1` - ThinkPad X1 Carbon
+- `tongfang-amd` - Tongfang AMD laptop
+- `xmod` - Custom configuration
+
+### Standalone Home Configurations (Optional/Reference)
+
+**Note:** These are primarily for reference. The recommended approach is using NixOS integration above.
 
 **lnnam user configurations:**
 - `lnnam-xfce` - XFCE desktop environment
@@ -153,7 +153,7 @@ nix-config/
 - `lnnam-hyprland` - Hyprland dynamic tiling compositor
 - `lnnam-gnome` - GNOME desktop environment
 
-**Original gvolpe configurations** (maintained for reference):
+**Original gvolpe configurations:**
 - `hyprland-edp` - Hyprland for laptop display
 - `hyprland-hdmi` - Hyprland for external display
 - `hyprland-hdmi-mutable` - Hyprland (mutable dotfiles)
@@ -161,17 +161,6 @@ nix-config/
 - `xmonad-hdmi` - XMonad for external display
 - `niri-edp` - Niri for laptop display
 - `niri-hdmi` - Niri for external display
-
-### NixOS Configurations
-
-**My systems:**
-- `msi-gl63` - MSI GL63 laptop (XMonad by default)
-
-**Original gvolpe systems** (maintained for reference):
-- `dell-xps` - Dell XPS 15 9560
-- `thinkpad-x1` - ThinkPad X1 Carbon
-- `tongfang-amd` - Tongfang AMD laptop
-- `xmod` - Custom configuration
 
 ### Packages
 
@@ -211,16 +200,19 @@ $ nix flake show
 
 ### Integrated Home Manager
 
-This configuration uses **NixOS module integration** for Home Manager, which means:
+This configuration uses **NixOS module integration** for Home Manager:
 
 - ✅ **Single command rebuild**: `sudo nixos-rebuild switch` applies both system and home-manager configs
-- ✅ **Unified configuration**: Home Manager settings are part of your machine's NixOS configuration
-- ✅ **Automatic activation**: No need to run `home-manager switch` separately
-- ✅ **Better integration**: System and user configurations are always in sync
+- ✅ **Unified WM switching**: Change one variable (`selectedWM`) to switch window managers
+- ✅ **Automatic backups**: Files are backed up with `.backup` extension when conflicts occur
+- ✅ **Mutable dotfiles**: Symlinks point to `~/Sync/Config/Nix/nix-config/home/` for easy editing
+- ✅ **Always in sync**: System and user configurations always match
 
-The integration is configured in:
+Key configuration files:
 - `outputs/os.nix:10` - Imports the home-manager NixOS module
-- `system/machine/msi-gl63/default.nix:11-26` - Configures home-manager for the lnnam user
+- `system/machine/msi-gl63/default.nix:5` - **`selectedWM` variable for easy WM switching**
+- `system/machine/msi-gl63/default.nix:42` - **`backupFileExtension = "backup"`** for automatic backups
+- `home/users/lnnam/shared.nix:53` - **`dotfiles.path`** configured for correct symlinks
 
 ### System Features
 
@@ -270,14 +262,28 @@ The integration is configured in:
 
 ### Existing NixOS System
 
-1. Clone this repository
-2. Update hardware-configuration.nix for your machine
-3. Build and switch (applies both system and home-manager):
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/namlnhut/dot-nixconfig.git ~/Sync/Config/Nix/nix-config
+   cd ~/Sync/Config/Nix/nix-config
+   ```
+
+2. Update hardware-configuration.nix for your machine:
+   ```bash
+   sudo nixos-generate-config --show-hardware-config > system/machine/msi-gl63/hardware-configuration.nix
+   ```
+
+3. (Optional) Choose your preferred window manager by editing `system/machine/msi-gl63/default.nix`:
+   ```nix
+   selectedWM = "xmonad";  # or "niri", "gnome", "hyprland", "xfce"
+   ```
+
+4. Build and switch (applies both system and home-manager):
    ```bash
    sudo nixos-rebuild switch --flake .#msi-gl63
    ```
 
-That's it! Home Manager is now integrated and will be applied automatically.
+Home Manager is integrated and will be applied automatically with proper file backups!
 
 ## :computer: Environment Details
 
@@ -334,30 +340,49 @@ That's it! Home Manager is now integrated and will be applied automatically.
 - **File Manager**: Nautilus
 - **Terminal**: GNOME Terminal
 
-## :arrows_counterclockwise: Switching Between Environments
+## :arrows_counterclockwise: Switching Between Window Managers
 
-The switch.sh script makes it easy to switch between different environments:
+### Simple One-Variable Switch
+
+Edit `system/machine/msi-gl63/default.nix` and change the `selectedWM` variable (line 5):
+
+```nix
+# Choose your window manager: "xmonad" | "niri" | "gnome" | "hyprland" | "xfce"
+selectedWM = "niri";  # Change this to switch WMs
+```
+
+Then rebuild your system:
 
 ```bash
-# List all available options
-./switch.sh
+sudo nixos-rebuild switch --flake .#msi-gl63
+```
 
-# System rebuild (recommended - includes home-manager)
-./switch.sh msi              # Rebuild msi-gl63 system with integrated home-manager
+The configuration will automatically:
+- ✅ Update system-level WM services and packages
+- ✅ Update user-level dotfiles and programs
+- ✅ Backup conflicting files with `.backup` extension
+- ✅ Create correct symlinks to `~/Sync/Config/Nix/nix-config/home/`
 
-# Standalone Home Manager configurations (optional - for quick user config changes)
-./switch.sh lnnam-xfce       # Switch to XFCE
-./switch.sh lnnam-xmonad     # Switch to XMonad
-./switch.sh lnnam-niri       # Switch to Niri
-./switch.sh lnnam-hyprland   # Switch to Hyprland
-./switch.sh lnnam-gnome      # Switch to GNOME
+### Available Window Managers
+
+| WM | Type | selectedWM Value |
+|----|------|------------------|
+| **XMonad** | Tiling (X11) | `"xmonad"` |
+| **Niri** | Scrollable (Wayland) | `"niri"` |
+| **GNOME** | Desktop (Wayland) | `"gnome"` |
+| **Hyprland** | Dynamic Tiling (Wayland) | `"hyprland"` |
+| **XFCE** | Desktop (X11) | `"xfce"` |
+
+### Switch Script (Alternative)
+
+```bash
+# Rebuild system
+./switch.sh msi
 
 # Utilities
 ./switch.sh update-fish      # Update fish completions
 ./switch.sh update-nix-index # Update nix-index database
 ```
-
-**Note:** Home Manager is now integrated into the NixOS configuration. Running `./switch.sh msi` will automatically apply both system and home-manager configurations for the lnnam user.
 
 ## :gear: Customization
 
@@ -371,10 +396,41 @@ The switch.sh script makes it easy to switch between different environments:
 2. Create machine configuration with integrated home-manager:
    ```nix
    # system/machine/my-machine/default.nix
-   { pkgs, inputs, ... }: {
+   { pkgs, inputs, ... }:
+
+   let
+     # Choose your window manager: "xmonad" | "niri" | "gnome" | "hyprland" | "xfce"
+     selectedWM = "xmonad";
+
+     wmConfigs = {
+       xmonad = {
+         system = ../../wm/xmonad.nix;
+         user = ../../../home/users/lnnam/xmonad.nix;
+       };
+       niri = {
+         system = ../../wm/niri.nix;
+         user = ../../../home/users/lnnam/niri.nix;
+       };
+       gnome = {
+         system = ../../wm/gnome.nix;
+         user = ../../../home/users/lnnam/gnome.nix;
+       };
+       hyprland = {
+         system = ../../wm/hyprland.nix;
+         user = ../../../home/users/lnnam/hyprland.nix;
+       };
+       xfce = {
+         system = ../../wm/xfce.nix;
+         user = ../../../home/users/lnnam/xfce.nix;
+       };
+     };
+
+     currentWM = wmConfigs.${selectedWM};
+   in
+   {
      imports = [
        ./hardware-configuration.nix
-       ../../wm/xmonad.nix  # Choose your WM
+       currentWM.system
      ];
 
      networking.hostName = "my-machine";
@@ -384,12 +440,13 @@ The switch.sh script makes it easy to switch between different environments:
        useGlobalPkgs = true;
        useUserPackages = true;
        extraSpecialArgs = pkgs.xargs;
+       backupFileExtension = "backup";
 
        users.lnnam = {
          imports = [
            inputs.neovim-flake.homeManagerModules.${pkgs.system}.default
            inputs.nix-index.homeManagerModules.${pkgs.system}.default
-           ../../../home/users/lnnam/xmonad.nix  # Choose your profile
+           currentWM.user
            {
              nix.registry.nixpkgs.flake = inputs.nixpkgs;
              hidpi = false;
@@ -398,6 +455,17 @@ The switch.sh script makes it easy to switch between different environments:
          ];
        };
      };
+
+     # Boot loader
+     boot = {
+       kernelPackages = pkgs.linuxPackages_latest;
+       loader = {
+         systemd-boot.enable = true;
+         efi.canTouchEfiVariables = true;
+       };
+     };
+
+     system.stateVersion = "25.11";
    }
    ```
 
@@ -408,22 +476,65 @@ The switch.sh script makes it easy to switch between different environments:
 
 ### Changing Window Manager
 
-To change your window manager, update both the system and home-manager imports in your machine's default.nix:
+The configuration uses a unified WM switching system. Simply change the `selectedWM` variable:
 
 ```nix
 # system/machine/my-machine/default.nix
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+
+let
+  # Choose your window manager: "xmonad" | "niri" | "gnome" | "hyprland" | "xfce"
+  selectedWM = "niri";  # Just change this!
+
+  wmConfigs = {
+    xmonad = {
+      system = ../../wm/xmonad.nix;
+      user = ../../../home/users/lnnam/xmonad.nix;
+    };
+    niri = {
+      system = ../../wm/niri.nix;
+      user = ../../../home/users/lnnam/niri.nix;
+    };
+    gnome = {
+      system = ../../wm/gnome.nix;
+      user = ../../../home/users/lnnam/gnome.nix;
+    };
+    hyprland = {
+      system = ../../wm/hyprland.nix;
+      user = ../../../home/users/lnnam/hyprland.nix;
+    };
+    xfce = {
+      system = ../../wm/xfce.nix;
+      user = ../../../home/users/lnnam/xfce.nix;
+    };
+  };
+
+  currentWM = wmConfigs.${selectedWM};
+in
+{
   imports = [
     ./hardware-configuration.nix
-    ../../wm/gnome.nix  # System-level WM config (xfce.nix, xmonad.nix, niri.nix, hyprland.nix, gnome.nix)
+    currentWM.system  # Automatically loads correct system config
   ];
 
-  home-manager.users.lnnam = {
-    imports = [
-      # ... other imports ...
-      ../../../home/users/lnnam/gnome.nix  # User-level WM config (must match system WM)
-      # ...
-    ];
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = pkgs.xargs;
+    backupFileExtension = "backup";  # Auto-backup conflicts
+
+    users.lnnam = {
+      imports = [
+        inputs.neovim-flake.homeManagerModules.${pkgs.system}.default
+        inputs.nix-index.homeManagerModules.${pkgs.system}.default
+        currentWM.user  # Automatically loads correct user config
+        {
+          nix.registry.nixpkgs.flake = inputs.nixpkgs;
+          hidpi = false;
+          dotfiles.mutable = true;
+        }
+      ];
+    };
   };
 }
 ```
@@ -431,6 +542,62 @@ To change your window manager, update both the system and home-manager imports i
 Then rebuild:
 ```bash
 sudo nixos-rebuild switch --flake .#my-machine
+```
+
+**Benefits:**
+- ✅ Single variable change switches both system and user configs
+- ✅ No chance of mismatched WM configs
+- ✅ Automatic file backups with `.backup` extension
+- ✅ Mutable dotfiles with correct symlink paths
+
+## :wrench: Troubleshooting
+
+### File Conflicts When Switching WMs
+
+When you see errors like:
+```
+Existing file '/home/lnnam/.config/foo' would be clobbered
+```
+
+**Solution:** The `backupFileExtension = "backup"` is already configured! This happens when you have unmanaged files (files you created manually). The rebuild will automatically back them up with `.backup` extension.
+
+Just run the rebuild again and check the backed up files:
+```bash
+sudo nixos-rebuild switch --flake .#msi-gl63
+find ~/.config ~/.mozilla -name "*.backup" -type f 2>/dev/null
+```
+
+### Symlinks Not Pointing to Correct Path
+
+If symlinks point to `~/workspace/nix-config/` instead of `~/Sync/Config/Nix/nix-config/`:
+
+**Solution:** This is already fixed in `home/users/lnnam/shared.nix:53`:
+```nix
+dotfiles.path = "${homeDirectory}/Sync/Config/Nix/nix-config/home";
+```
+
+Rebuild to apply:
+```bash
+sudo nixos-rebuild switch --flake .#msi-gl63
+```
+
+### Check Current WM Configuration
+
+To see which WM is currently selected:
+```bash
+cat system/machine/msi-gl63/default.nix | grep selectedWM
+```
+
+To verify symlinks are correct:
+```bash
+# For Niri
+ls -la ~/.config/niri/config.kdl
+
+# For Hyprland
+ls -la ~/.config/hypr/
+
+# For XMonad
+ls -la ~/.config/xmonad/
 ```
 
 ## :books: Resources
