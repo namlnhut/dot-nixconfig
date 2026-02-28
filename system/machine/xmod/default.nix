@@ -26,7 +26,7 @@ in
           ({ nix.registry.nixpkgs.flake = inputs.nixpkgs; })
         ];
 
-        users.gvolpe = import ../../../home/wm/xmonad;
+        users.lnnam = import ../../../home/wm/xmonad;
       };
     }
   ];

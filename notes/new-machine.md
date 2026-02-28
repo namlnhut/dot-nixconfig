@@ -4,7 +4,7 @@ On a fresh NixOS installation, run the following commands.
 
 ```console
 nix develop nixpkgs#git # optional if you don't have git, it's needed by the next command
-nix flake clone github:gvolpe/nix-config --dest /choose/a/path
+nix flake clone github:namlnhut/dot-nixconfig --dest /choose/a/path
 ./build fresh-install # requires sudo
 reboot
 ```
@@ -26,7 +26,7 @@ cat ~/.ssh/id_ed25519.pub
 You should now be able to clone a private repo via SSH.
 
 ```console
-git clone git@github.com:gvolpe/private-flake.git
+git clone git@github.com:namlnhut/private-flake.git
 ```
 
 NOTE: the `gen-ssh-key` should be installed by Home Manager (defined [here](../home/scripts/gen-ssh-key.nix)).
@@ -46,8 +46,8 @@ gpg --export-secret-keys 0x121D4302A64B2261 > private-key
 ```console
 $ scp USER@HOST:/path/to/private-key .
 # for example
-scp gvolpe@tongfang-amd:/home/gvolpe/workspace/private-key .
-(gvolpe@tongfang-amd) Password:
+scp lnnam@tongfang-amd:/home/lnnam/workspace/private-key .
+(lnnam@tongfang-amd) Password:
 ```
 
 3. Import private GPG key on the new machine.

@@ -81,7 +81,7 @@ in
     };
   };
 
-  users.extraGroups.vboxusers.members = [ "gvolpe" "lnnam" ];
+  users.extraGroups.vboxusers.members = [ "lnnam" ];
 
   security.rtkit.enable = true;
 
@@ -154,7 +154,7 @@ in
   '';
 
   # Define a user account. Don't forget to set a password with 'passwd'.
-  users.users.gvolpe = {
+  users.users.lnnam = {
     isNormalUser = true;
     # wheel for 'sudo', uucp for bazecor to access ttyAMC0 (keyboard firmware updates)
     extraGroups = [ "docker" "networkmanager" "wheel" "scanner" "lp" "uucp" ];
@@ -199,7 +199,7 @@ in
       auto-optimise-store = true;
 
       # Required by Cachix to be used as non-root user
-      trusted-users = [ "root" "gvolpe" "lnnam" ];
+      trusted-users = [ "root" "lnnam" ];
 
       experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
       warn-dirty = false;

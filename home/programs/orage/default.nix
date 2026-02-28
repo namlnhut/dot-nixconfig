@@ -5,8 +5,8 @@
     [PARAMETERS]
     Timezone=Asia/Ho_Chi_Minh
     Archive limit=0
-    Archive file=/home/gvolpe/.local/share/orage/orage_archive.ics
-    Orage file=/home/gvolpe/.local/share/orage/orage.ics
+    Archive file=/home/lnnam/.local/share/orage/orage_archive.ics
+    Orage file=/home/lnnam/.local/share/orage/orage.ics
     Sound application=play
     Main window X=2816
     Main window Y=45

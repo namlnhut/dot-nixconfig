@@ -12,13 +12,13 @@ in
     if [[ $monitors == *"HDMI"* ]]; then
       echo "Switching to HM config for HDMI display"
       cd ${home}
-      nix build --impure .#homeConfigurations.gvolpe-hdmi.activationPackage
+      nix build --impure .#homeConfigurations.lnnam-hdmi.activationPackage
       result/activate
       cd -
     elif [[ $monitors == *"eDP"* ]]; then
       echo "Switching to HM config for eDP laptop display"
       cd ${home}
-      nix build --impure .#homeConfigurations.gvolpe-edp.activationPackage
+      nix build --impure .#homeConfigurations.lnnam-edp.activationPackage
       result/activate
       cd -
     else

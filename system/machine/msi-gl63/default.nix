@@ -5,7 +5,7 @@ let
 
   # Choose your window manager: "xmonad" | "niri" | "gnome" | "hyprland" | "xfce"
   # Change this to switch window managers
-  selectedWM = "xmonad";
+  selectedWM = "niri";
 
   wmConfigs = {
     xmonad = ../../wm/xmonad.nix;

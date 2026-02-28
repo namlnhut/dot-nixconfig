@@ -16,7 +16,7 @@ rustPlatform.buildRustPackage {
     description = "Terminal disk space navigator (fork)";
     homepage = "https://github.com/kfkonrad/diskonaut";
     license = licenses.mit;
-    maintainers = with maintainers; [ gvolpe ];
+    maintainers = with maintainers; [ lnnam ];
     mainProgram = "diskonaut";
   };
 }

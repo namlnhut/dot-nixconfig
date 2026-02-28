@@ -7,7 +7,7 @@ let
   file = builtins.readFile ./style.css;
   style =
     builtins.replaceStrings
-      [ "/home/gvolpe/workspace/nix-config/home/programs/wlogout/assets" ]
+      [ "/home/lnnam/workspace/dot-nixconfig/home/programs/wlogout/assets" ]
       [ "${./assets}" ]
       file;
 in

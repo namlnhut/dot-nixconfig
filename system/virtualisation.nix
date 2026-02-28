@@ -8,7 +8,7 @@
 
   users = {
     groups.nixosvmtest = { };
-    groups.libvirtd.members = [ "gvolpe" ];
+    groups.libvirtd.members = [ "lnnam" ];
 
     users.vmtest = {
       isSystemUser = true;

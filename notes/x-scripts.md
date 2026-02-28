@@ -51,8 +51,8 @@ pre_home() {
 post_home() {
   # Set user's profile picture for Gnome3
   echo "Setting profile picture for the accounts service"
-  sudo cp imgs/gvolpe.png /var/lib/AccountsService/icons/gvolpe
-  sudo echo "Icon=/var/lib/AccountsService/icons/gvolpe" >> /var/lib/AccountsService/users/gvolpe
+  sudo cp imgs/lnnam.png /var/lib/AccountsService/icons/lnnam
+  sudo echo "Icon=/var/lib/AccountsService/icons/lnnam" >> /var/lib/AccountsService/users/lnnam
 
   # Set screenlock wallpaper
   echo "Setting screen-lock wallpaper"

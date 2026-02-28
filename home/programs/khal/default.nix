@@ -3,7 +3,7 @@
 {
   accounts.calendar = {
     basePath = "kalendar";
-    accounts.gvolpe = {
+    accounts.lnnam = {
       primary = true;
       khal = {
         enable = true;
@@ -18,7 +18,7 @@
         type = "filesystem";
         fileExt = ".ics";
       };
-      primaryCollection = "gvolpe"; # workaround
+      primaryCollection = "lnnam"; # workaround
     };
   };
 
@@ -38,7 +38,7 @@
     };
     settings = {
       default = {
-        default_calendar = "gvolpe";
+        default_calendar = "lnnam";
         timedelta = "5d";
       };
       view = {

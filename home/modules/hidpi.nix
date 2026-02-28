@@ -7,7 +7,7 @@ let
   inherit (config.xsession.windowManager) xmonad;
 in
 {
-  meta.maintainers = [ hm.maintainers.gvolpe ];
+  meta.maintainers = [ hm.maintainers.lnnam ];
 
   options = {
     hidpi = lib.mkEnableOption "HiDPI displays";

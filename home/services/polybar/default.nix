@@ -43,7 +43,7 @@ let
     [module/clickable-github]
     inherit = module/github
     token = ${config.secrets.githubToken}
-    user = gvolpe
+    user = namlnhut
     label = %{A1:${openGithub}:}  %notifications%%{A}
   '';
 
